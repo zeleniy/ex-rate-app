@@ -33,9 +33,9 @@ class ExRateService {
     sort($this->codes);
     $cacheKey = sprintf('%s-%s', $dateString, implode('-', $this->codes));
 
-    if ($rate = $this->cache->get($cacheKey)) {
-      return $rate;
-    }
+//     if ($rate = $this->cache->get($cacheKey)) {
+//       return $rate;
+//     }
 
     $xmlString = file_get_contents('https://www.cbr.ru/scripts/XML_daily.asp?date_req=' . $dateString);
 
@@ -50,10 +50,13 @@ class ExRateService {
     $xpathSelector = sprintf('/ValCurs/Valute[(%s)]', $xpathSubSelector);
 
     $data = $xml->xpath($xpathSelector);
-    $rate = [$dateString => []];
+    $rate = [
+      'data' => $dateString,
+      'rates' => []
+    ];
 
     foreach ($data as $simpleXMLElement) {
-      $rate[$dateString][$simpleXMLElement->CharCode->__toString()] = $simpleXMLElement->Value->__toString();
+      $rate['rates'][$simpleXMLElement->CharCode->__toString()] = str_replace(',', '.', $simpleXMLElement->Value->__toString());
     }
 
     $this->cache->set($cacheKey, $rate, 3600);
