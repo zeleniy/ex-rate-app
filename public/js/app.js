@@ -30,6 +30,15 @@
 
 
   /**
+   * Обработчик события: соединение закрыто.
+   * @handler
+   */
+  ws.onclose = function() {
+    wsError = true;
+  };
+
+
+  /**
    * Обработчик события: данные с сервера получены.
    * @handler
    * @param MessageEvent
