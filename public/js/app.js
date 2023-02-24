@@ -6,7 +6,7 @@
   let wsError = false;
 
   // Соединяемся
-  const ws = new WebSocket("ws://localhost:2346/");
+  const ws = new WebSocket('ws://localhost:2346/');
 
 
   /**
@@ -36,19 +36,18 @@
    */
   ws.onmessage = function(e) {
 
-    console.info('Message handler in progress...')
-
     const data = JSON.parse(e.data);
+    console.info(data)
 
-    document.querySelector('#date').innerHTML = data.time.split(" ").pop();
+    document.querySelector('#date').innerHTML = data.time.split(' ').pop();
     document.querySelectorAll('table tbody .value').forEach((spanElement) => {
 
-      const currency = spanElement.classList.value.split("-").pop();
+      const currency = spanElement.classList.value.split('-').pop();
       const todayValue = data.rate[0].rates[currency.toUpperCase()];
       const yesterdayValue = data.rate[1].rates[currency.toUpperCase()];
       const difference = todayValue - yesterdayValue;
 
-      spanElement.innerHTML = todayValue;
+      spanElement.innerHTML = todayValue == null ? '—' : todayValue;
 
       if (difference !== 0) {
         spanElement.nextElementSibling.innerHTML = difference;

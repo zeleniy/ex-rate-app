@@ -13,6 +13,10 @@ use \Phpfastcache\Helper\Psr16Adapter;
 class ExchangeService {
 
 
+  /**
+   * Кэш.
+   * @var Psr16Adapter
+   */
   private $cache;
 
 
@@ -25,6 +29,10 @@ class ExchangeService {
   }
 
 
+  /**
+   * Получить инстанс класса.
+   * @return ExchangeService
+   */
   public static function getInstance(): ExchangeService {
 
     return new ExchangeService();
@@ -32,7 +40,7 @@ class ExchangeService {
 
 
   /**
-   * Получить данные по конвертации.
+   * Получить данные по курсам валют.
    * @return array
    */
   public function getRate(): array {
