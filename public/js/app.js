@@ -1,7 +1,7 @@
 (function () {
   /**
    * Флаг успешного соединения с сервером.
-   * @var bool
+   * @var {bool}
    */
   let wsError = false;
 
@@ -39,29 +39,60 @@
 
 
   /**
+   * Функция расчёта разности в процентах.
+   * @param {number} a
+   * @param {number} b
+   * @returns {number}
+   */
+  function getPerentDiff(a, b) {
+
+    let value;
+
+    if (a === b) {
+      value = 0;
+    } else if (a < b) {
+      value = ((b - a) / a) * 100;
+    } else {
+      value = ((a - b) / a) * 100;
+    }
+
+    return round(value);
+  }
+
+
+  /**
+   * Округлить до двух знаков после запятой.
+   * @param {number} value
+   * @returns {number}
+   */
+  function round(value) {
+
+    return Math.round(value * 100) / 100;
+  }
+
+
+  /**
    * Обработчик события: данные с сервера получены.
    * @handler
-   * @param MessageEvent
+   * @param {MessageEvent} e
    */
   ws.onmessage = function(e) {
 
+    console.info(e)
     const data = JSON.parse(e.data);
-    console.info(data)
 
     document.querySelector('#date').innerHTML = data.time.split(' ').pop();
     document.querySelectorAll('table tbody .value').forEach((spanElement) => {
 
       const currency = spanElement.classList.value.split('-').pop();
-      const todayValue = data.rate[0].rates[currency.toUpperCase()];
-      const yesterdayValue = data.rate[1].rates[currency.toUpperCase()];
-      const difference = todayValue - yesterdayValue;
+      const todayValue = round(data.rate[0].rates[currency.toUpperCase()]);
+      const yesterdayValue = round(data.rate[1].rates[currency.toUpperCase()]);
+      const difference = round(todayValue - yesterdayValue);
 
       spanElement.innerHTML = todayValue == null ? '—' : todayValue;
+      spanElement.nextElementSibling.innerHTML = difference + ' (' + getPerentDiff(todayValue, yesterdayValue) + '%)';
 
-      if (difference !== 0) {
-        spanElement.nextElementSibling.innerHTML = difference;
-        spanElement.nextElementSibling.classList.add(difference > 0 ? 'bg-success' : 'bg-danger');
-      }
+      spanElement.nextElementSibling.classList.add(difference >= 0 ? 'bg-success' : 'bg-danger');
     });
   };
 
