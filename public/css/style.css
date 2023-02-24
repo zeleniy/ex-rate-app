@@ -1,0 +1,8 @@
+@charset "UTF-8";
+th, td {
+  vertical-align: middle;
+  padding: 1em !important;
+}
+.table>:not(caption)>*>* {
+  padding: unset;
+}
