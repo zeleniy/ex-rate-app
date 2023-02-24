@@ -40,21 +40,7 @@ class CbrService {
         return $rate;
       }
 
-      $xmlString = file_get_contents('https://www.cbr.ru/scripts/XML_daily.asp?date_req=' . $dateString);
-
-      if ($xmlString === false) {
-        return $this->getEmptyRate($dateString);
-      }
-
-      $rate = [
-        'data' => $dateString,
-        'rates' => []
-      ];
-
-      foreach ($this->parseXml($xmlString) as $simpleXMLElement) {
-        $rate['rates'][$simpleXMLElement->CharCode->__toString()] = str_replace(',', '.', $simpleXMLElement->Value->__toString());
-      }
-
+      $rate = $this->fetch($dateString);
       $this->cache->set($cacheKey, $rate, 3600);
 
       return $rate;
@@ -63,6 +49,30 @@ class CbrService {
 
       return $this->getEmptyRate($dateString);
     }
+  }
+
+
+  /**
+   *
+   */
+  private function fetch(string $dateString): array {
+
+    $xmlString = file_get_contents('https://www.cbr.ru/scripts/XML_daily.asp?date_req=' . $dateString);
+
+    if ($xmlString === false) {
+      return $this->getEmptyRate($dateString);
+    }
+
+    $rate = [
+      'data' => $dateString,
+      'rates' => []
+    ];
+
+    foreach ($this->parseXml($xmlString) as $simpleXMLElement) {
+      $rate['rates'][$simpleXMLElement->CharCode->__toString()] = str_replace(',', '.', $simpleXMLElement->Value->__toString());
+    }
+
+    return $rate;
   }
 
 
