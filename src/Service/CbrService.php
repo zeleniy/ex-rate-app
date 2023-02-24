@@ -10,7 +10,7 @@ use \Phpfastcache\Helper\Psr16Adapter;
 /**
  * 
  */
-class ExRateService {
+class CbrService {
 
 
   /**

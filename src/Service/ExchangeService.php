@@ -48,8 +48,8 @@ class ExchangeService {
     $today = new \DateTimeImmutable();
     $yesterday = $today->sub(new \DateInterval("P1D"));
 
-    $rateToday  = new ExRateService(['USD', 'EUR'], $today, $this->cache);
-    $rateBefore = new ExRateService(['USD', 'EUR'], $yesterday, $this->cache);
+    $rateToday  = new CbrService(['USD', 'EUR'], $today, $this->cache);
+    $rateBefore = new CbrService(['USD', 'EUR'], $yesterday, $this->cache);
 
     return [
       'time' => date('H:i:s d.m.Y'),
