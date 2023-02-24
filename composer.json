@@ -1,13 +1,19 @@
 {
-    "name": "zeleniy/exchange-rate",
-    "type": "project",
-    "authors": [
-        {
-            "name": "Aleksandr Zelenin",
-            "email": "aleksandr.s.zelenin@gmail.com"
-        }
-    ],
-    "require": {
-        "walkor/workerman": "^4.1"
+  "name": "zeleniy/exchange-rate",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Aleksandr Zelenin",
+      "email": "aleksandr.s.zelenin@gmail.com"
     }
+  ],
+  "require": {
+    "walkor/workerman": "^4.1",
+    "phpfastcache/phpfastcache": "^9.1"
+  },
+  "autoload" : {
+    "psr-4" : {
+      "App\\" : "src/"
+    }
+  }
 }
