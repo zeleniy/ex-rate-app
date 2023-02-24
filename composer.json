@@ -1,0 +1,13 @@
+{
+    "name": "zeleniy/exchange-rate",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Aleksandr Zelenin",
+            "email": "aleksandr.s.zelenin@gmail.com"
+        }
+    ],
+    "require": {
+        "walkor/workerman": "^4.1"
+    }
+}
