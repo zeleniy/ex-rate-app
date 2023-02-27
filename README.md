@@ -4,7 +4,8 @@
 ```
 composer install 
 ```
-А затем запустить Docker так:
+Затем запустить Docker так:
 ```
 docker-compose -p ex-rate-app up
 ```
+И посмотреть на результат на http://localhost/
