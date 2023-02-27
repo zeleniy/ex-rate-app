@@ -16,6 +16,14 @@
   ws.onopen = function() {
     // Делаем запрос по факту открытия соединения
     ws.send('');
+    // Запускаем опроса сервера.
+    const descriptor = setInterval(function() {
+      if (descriptor && wsError) {
+        clearInterval(descriptor);
+      } else {
+        ws.readyState && ws.send('');
+      }
+    }, 1000);
   };
 
 
@@ -95,13 +103,4 @@
       spanElement.nextElementSibling.classList.add(difference >= 0 ? 'bg-success' : 'bg-danger');
     });
   };
-
-  // Запускаем опроса сервера.
-  const descriptor = setInterval(function() {
-    if (descriptor && wsError) {
-      clearInterval(descriptor);
-    } else {
-      ws.readyState && ws.send('');
-    }
-  }, 1000);
 })();
